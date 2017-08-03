@@ -6,8 +6,12 @@ R.M.S. Argo
 
 
 To Compile:
+
 	Requirements:
+
 		Ubuntu 17.04
 		nanomsg
+
 	run: 
+
 		gcc [name of program] -lnanomsg -lpthread
