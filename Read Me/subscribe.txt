@@ -1,0 +1,27 @@
+ROS: Embedded Edition Subscribers
+
+
+There are two methods of subscribing to a topic, the subscribe
+function and the timed subscribe function. These function connect
+to the master node through the file named masterSub.ipc in the
+tmp directory over nanomsg's request responce protocol. There
+is a one second sleep timer imediatly after it connects as to
+prevent nanomsg from dropping the request. Next the name of the
+topic you wish to subscribe to is send to the master. This
+name must be a valid C string of less than 100 characters 
+including the null terminator. The master node sends back a 
+new file name for communication between a thread in the master
+ node and the subscriber. The subscriber sets up communication
+to the master node through the new file using nanomsg's pair
+protocol. Next the node waits for the master to send it the 
+file paths to the publishing nodes. Once a new file path is
+recieved the subscriber node spins up a new thread for listening
+to the topic. This new thread connects to the publisher using
+nanomsg's subscribe protocol. Next, if you used the timed 
+subscribe function the funciton will sleep for that number of seconds, it will wait for data to published. Once there is 
+data published it will do any nessisary memory allocation and
+copy the data into the array pointed to by the info void
+pointer.
+
+The memory usage of the subscribe function is ~13kb adding 
+~2-3kb for each publisher.

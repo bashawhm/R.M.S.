@@ -1,0 +1,44 @@
+ROS: Embedded Edition Action Servers
+
+Action Servers:
+
+The action server topic takes three arguments: the name of the
+topic to listen on, a function pointer to the function to be
+run, and the size in bytes of the return of the function.
+When an action server is created it contacts the master 
+through the file masterAction.ipc using nanomsg's request 
+protocol. The node then recieves the name of the ipc file
+to listen on. The node then binds to the new file via
+nanomsg's pair protocol. The server will listen for any 
+requests. Once a request is made the server runs the function
+in a new thread. The function (in the main thread) then 
+listens for any calls from the action send and action return
+functions. If either of these functions are called the main thread will send the data back to the action requester. when
+action return function is called the return is sent to the
+requester and then a spectial string is sent to the requester
+to tell it that the function has completed and that it should
+close the connection. After this the server begines to listen
+for any new incoming requests.
+
+Action Requesters:
+
+The action requester function takes four arguments: the name 
+of the topic to send requests, the perameters to send to the
+action server, the size in bytes of the perameters, and the 
+address of a void pointer to the place you wish to store the 
+information. When the function is called it connects to the 
+master node through the file masterActionReq.ipc, using 
+nanomsg's request protocol. Next it send the name of the topic
+the requester wants to send the request on to the master node.
+the master then sends back a path to a file that the node can
+communicate with the master on using nanomsg's pair protocol.
+the master will then send it a file path to communicate with
+the action server. The node then connects to the action server
+using nanomsg's pair protocol. The requester then send the 
+function perameters to the action server. The node then
+listens for any communication from the action server. If there
+is the message gets put in the array pointed to by the void **
+perameter (any nessasary memory allocation is preformed). Once
+the server is done handling the request the node closes all 
+conections then exits the function.
+

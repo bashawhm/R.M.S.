@@ -1,0 +1,52 @@
+ROS: Embedded Edition Master Node
+
+The master node facilitates all the comunication in the 
+system. When the master node is run it starts up six threads
+two for each method of communicaiton. The threads can be 
+separated into two groups providers and requesters. 
+Providers are made up of publishers, action servers, and 
+services; Requesters are made up of subscribers, action 
+requesters, and service requesters.
+
+Providers:
+
+The master node listens on several different files for new 
+nodes, once a node connects to the master it adds it to the
+name appropriate list. Then the master assigns the node a file
+to communicate on. This file name is created by taking the 
+integer value of the number of connections, converting it to 
+a string and appending ".ipc" to the end. Currently there is 
+a 100 node limit however to change this all it takes is a 
+simple change of constants in the master and every other type
+of node. Once the new file has been generated it gets sent to
+the node and the number of nodes is incremented. 
+
+Requesters:
+
+The master node listens on several different files for new
+nodes, once a node connects to the master it adds it to the 
+name appropriate list. Then the master assigns the node a file
+to communicate on. This file name is created by taking the
+integer value of the number of connections, converting it to
+a string and appending ".ipc" to the end. Currently there is
+a 100 node limit however to change this all it takes is a
+simple change of constants in the master and every other type
+of node. Once the new file has been generated it gets sent to
+the node and the number of nodes is incremented. From here a 
+new thread is created to handle the communication with the 
+subscribers. Whenever a new publisher joins the topic the 
+master node sends out the appropriate file path to all 
+subscribers to the topic for them to subscribe.
+
+
+In an attempt to minimize memory use and to decrease the 
+ammount of communication going on when a node is removed 
+from the system is will not update the master, because of this
+the total number of connections will never go down even when
+node drop off the system. This should not cause any issues as
+when a node leave the network it can no longer publish any 
+information or effect the network in anyother way, however, 
+they will still contribute to the number of nodes possably 
+causing confustion when the number of nodes reach 10000.
+
+The aproximate memory usage of the master is 40kb without any nodes on the network.

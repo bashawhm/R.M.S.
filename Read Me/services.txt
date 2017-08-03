@@ -1,0 +1,33 @@
+ROS: Embedded Edition Services
+
+
+Services:
+
+When a service is set up the node will contact the master 
+node, using nanomsg's request protocol, through the
+masterService.ipc file located in the tmp directory. The 
+node will send the name of the service topic to connect to.
+The master node sends a file name back to the service. the 
+service then connects to this ipc file using nanomsg's 
+responce protocol. Next the node waits and listens for any 
+service requests. once the request is made the service passes
+any funciton perameters to the function, lets it run, then 
+sends the return back to the requester. 
+
+
+Service Requesters:
+
+When a service request is made the node will contact the 
+master node, using nanomsg's request protocol, through the
+masterServiceReq.ipc file located in the tmp directory. The 
+node will send the name of the service topic to connect to.
+The master node sends a file name back to the service request
+node. The node connects to this new ipc file using the pair
+protocol. Once connected the master node will send it a file
+path to the service node. The requesting node then connect to
+the service over nanomsg's request protocol. Once connected
+The requester node then sends any function perameters to the
+service. Next the function patiently waits for the service to
+complete. After the service completes it send back any return
+value to the requester. The requester then terminates the 
+connection and exits the function.
