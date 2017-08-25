@@ -1,4 +1,5 @@
-ROS: Embedded Edition Publishers
+RMS
+Publishers
 
 There are three ways of publishing information, the normal 
 publish, the timed publish, and the non-interupt publish. 
