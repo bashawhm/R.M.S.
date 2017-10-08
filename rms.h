@@ -43,12 +43,11 @@ void * subListenThread(void *stuff){
 		//sleep if requested
 		sleep(timed);
 		if(*info == NULL){
-			*info = malloc(N2);
+			*info = malloc(maxSize);
 			nn_recv(S1, *info, maxSize, 0);
 		} else {
 			nn_recv(S1, *info, maxSize, 0);
 		}
-		free(tmpBuff);
 	}
 	nn_close(S1);
 	return NULL;
@@ -623,7 +622,7 @@ void * pubInitThread(void * stuff){
     }
 	while (1){
 		void * recv;
-		unsigned int N5 = nn_recv(S3, recv, NN_MSG, 0);
+		int N5 = nn_recv(S3, recv, NN_MSG, 0);
 		if (N5 < 0){
 			fprintf(stderr, "Error: Failed to recieve from inproc\n%s\n", strerror(errno));
 			exit(1);
