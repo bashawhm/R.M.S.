@@ -19,3 +19,14 @@ continuously send data in nanomsg's blocking mode.
 
 
 The memory usage of the publish function is ~12kb.
+
+Example:
+
+char * stuffToPub = (char *)malloc(10*sizeOf(Char));
+strcpy(stuffToPub, "Hi Jason");
+int size[1];
+size[0] = 9;
+
+publish("Example topic", size, (void *)&stuffToPub);
+
+

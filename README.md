@@ -9,9 +9,11 @@ To Compile:
 
 	Requirements:
 
-		Ubuntu 17.04
+		Debian-Based system (Idealy Ubuntu)
 		nanomsg
 
 	run: 
 
 		gcc [name of program] -lnanomsg -lpthread
+		Alternatively:
+		clang [name of program] -lnanomsg -lpthread
