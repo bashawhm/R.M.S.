@@ -2,7 +2,7 @@ RMS
 Publishers
 
 There are three ways of publishing information, the normal 
-publish, the timed publish, and the non-interupt publish. 
+publish, the timed publish, and the non-interrupt publish. 
 The publish functions begin by creating a new thread for 
 publishing. Once the new thread is created the node connects 
 to the master node through the masterPub.ipc file, using 
@@ -13,8 +13,8 @@ to. The publisher then binds to this file using nanomsg's
 publish protocol. This is where the differences between the 
 methods of publishing come in. The normal publish function
 will continuously send data to the topic in nanomsg's non
-blocking mode. The timed funciton will send the data in blocking mode, but will also sleep for a set number of seconds 
-before publishing again. The non-interupt function will 
+blocking mode. The timed function will send the data in blocking mode, but will also sleep for a set number of seconds 
+before publishing again. The non-interrupt function will 
 continuously send data in nanomsg's blocking mode.
 
 
